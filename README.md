@@ -1,3 +1,5 @@
+==========================================================================
+
 Client Side = A aplicação esta do lado do cliente/usuário
 Server Side = A aplicação esta do lado do servidor
 
