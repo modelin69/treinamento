@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+}
+
+.carta {
+    width: 80px;
+    height: 120px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    font-size: 18px;
+    position: relative;
+}
+
+.canto {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.superior {
+    top: 5px;
+    left: 5px;
+}
+
+.inferior {
+    bottom: 5px;
+    right: 5px;
+    transform: rotate(180deg);
+}
+
+.naipe {
+    font-size: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.red {
+    color: red;
+}

@@ -1,0 +1,33 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baralho</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="baralho" class="container"></div>
+    <script src="baralho.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const baralho = criarBaralho(); // Função definida em baralho.js
+            const container = document.getElementById("baralho");
+            
+            baralho.forEach(carta => {
+                const divCarta = document.createElement("div");
+                divCarta.classList.add("carta");
+
+                if (carta.naipe === "♥" || carta.naipe === "♦")
+                    divCarta.classList.add("red")
+                
+                divCarta.innerHTML = `
+                    <div class="canto superior">${carta.simbolo} ${carta.naipe}</div>
+                    <div class="naipe">${carta.naipe}</div>
+                `;
+                
+                container.appendChild(divCarta);
+            });
+        });
+    </script>
+</body>
+</html>
