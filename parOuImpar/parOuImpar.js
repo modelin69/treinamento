@@ -1,4 +1,5 @@
 const { getChoice, textQuestion, wait } = require('../question')
+const menu = require('../menu/menu')
 
 /**
  * JOGO DE PAR OU IMPAR
@@ -36,28 +37,26 @@ const { getChoice, textQuestion, wait } = require('../question')
  * - Retorna o jogador para a tela de menu com o número de vitórias/derrotas atualizado
  */
 
+let jogador
+
 const resultados = {
 
     vitorias: 0,
     derrotas: 0
-};
 
-let jogador
+
+};
 
 const telaInicial = () => {
 
     console.clear()
 
-    console.log('===========================================')
-    console.log('==          Par - Ou - Impar             ==')
-    console.log('===========================================')
-    console.log('==                                       ==')
-    console.log('==  1 - NOVO JOGO                        ==')
-    console.log('==  2 - SAIR                             ==')
-    console.log('==                                       ==')
-    console.log('===========================================')
-
-
+    menu.titulo("PAR OU IMPAR")
+    menu.opcoes([
+        "1 - NOVO JOGO",
+        "2 - SAIR"
+    ])
+    menu.inferior()
 
     let escolha = getChoice("Escolha a opcao: ", 1, 2)
 
@@ -71,23 +70,16 @@ const telaInicial = () => {
 }
 
 const telaCriacaoUsuario = () => {
+
     console.clear()
 
-    console.log('===========================================')
-    console.log('==          Bem - vindo           ==')
-    console.log('===========================================')
-    console.log('==                                       ==')
-    console.log('==  QUAL SEU NOME INVOCADOR?             ==')
-    console.log('==                                       ==')
-    console.log('==                                       ==')
-    console.log('===========================================')
+    menu.titulo(`BEM VINDO (A)`)
+    menu.linhaVazia()
+    menu.textoCentralizado(`Escolha seu nome de invocador(a)`)
+    menu.linhaVazia()
+    menu.inferior()
 
-    jogador = textQuestion(`Qual seu nome?`)
-    console.log('==  Seja BEM - VINDO (a) (A Melhor Professora do Mundo!)   ==')
-    console.log(`==    ${jogador}       ==`)
-
-
-
+    jogador = textQuestion(`Qual seu nome? `)
     telaMenuPrincipal()
 
 }
@@ -96,64 +88,35 @@ const telaMenuPrincipal = () => {
 
     console.clear()
 
-
-    console.log(`Vitórias: ${resultados.vitorias}, Derrotas: ${resultados.derrotas}`);
-
-
-    console.log('===========================================')
-    console.log('==          Bem - vindo           ==')
-    console.log('===========================================')
-    console.log(resultados)
-    console.log('==          1 - INICIAR PARTIDA                ==')
-    console.log('==          2 - ALTERAR NOME           ==')
-    console.log('==          0 - VOLTAR AO MENU PRINCIPAL ==')
-    console.log('===========================================')
+    menu.titulo(`MENU PRINCIPAL`)
+    menu.opcoes([`VITÓRIAS     ${resultados.derrotas}`,
+    `DERROTAS     ${resultados.vitorias}`
+    ])
+    menu.divisoria()
+    menu.opcoes([
+        "1 - INICIAR PARTIDA",
+        "2 - ALTERAR NOME",
+        "0 - VOLTAR AO MENU PRINCIPAL"
+    ])
+    menu.inferior()
 
     let escolha = getChoice("Escolha a opcao: ", 0, 2)
 
-
     if (escolha === 1) {
+
         telaEscolha()
+
     } else if (escolha === 2) {
+
         telaCriacaoUsuario()
 
     } else if (escolha === 0) {
+
+        resultados.derrotas = 0
+        resultados.vitorias = 0
         telaInicial()
+
     }
-
-}
-
-
-const telaResultado = (escolhaJogador, escolhaMaquina) => {
-
-    console.clear()
-
-    let jogadorPar = escolhaJogador.par ? "PAR" : "IMPAR"
-    let maquinaPar = escolhaMaquina.par ? "PAR" : "IMPAR"
-
-    let soma = escolhaJogador.valor + escolhaMaquina.valor
-    let resultadoEhPar = soma % 2 === 0
-    let jogadorVenceu = resultadoEhPar === escolhaJogador.par
-
-    console.log('===========================================')
-    console.log('==          RESULTADO                    ==')
-    console.log('===========================================')
-    console.log('==                                       ==')
-    console.log(`==  ${jogador} (${jogadorPar}) - Mão: ${escolhaJogador.valor}              ==`)
-    console.log(`==  Maquina (${maquinaPar}) - Mão: ${escolhaMaquina.valor}              ==`)
-    console.log('==                                       ==')
-    console.log(`==  VENCEDOR: ${jogadorVenceu ? jogador : "Maquina"}                    ==`)
-    console.log('===========================================')
-
-    if (jogadorVenceu) {
-        resultados.vitorias = resultados.vitorias + 1
-    } else {
-        resultados.derrotas = resultados.derrotas + 1
-    }
-
-    wait()
-
-    telaMenuPrincipal()
 
 }
 
@@ -161,47 +124,44 @@ const telaEscolha = () => {
 
     console.clear()
 
-    console.log('===========================================')
-    console.log('==          Par - Ou - Impar             ==')
-    console.log('===========================================')
-    console.log('==               ESCOLHAR                ==')
-    console.log('==         1 PAR                         ==')
-    console.log('==         2 IMPAR                       ==')
-    console.log('==                                       ==')
-    console.log('===========================================')
+    menu.titulo(`FAÇA SUA JOGADA`)
+    menu.opcoes([
+        "1 - IMPAR",
+        "2 - PAR"
+    ])
+    menu.inferior()
 
     let escolha = getChoice("Escolha a opcao: ", 1, 2)
 
     if (escolha === 1) {
 
         telaEscolherNumero({
-            par: true,
+            par: false,
             valor: 0
         })
 
     } else if (escolha === 2) {
 
         telaEscolherNumero({
-            par: false,
+            par: true,
             valor: 0
         })
 
     } else {
+
         telaEscolha()
+
     }
+
 }
 
 const telaEscolherNumero = (escolhaJogador) => {
 
     console.clear()
 
-    console.log('===========================================')
-    console.log('==          Par - Ou - Impar             ==')
-    console.log('===========================================')
-    console.log('==                                       ==')
-    console.log(`==  Você escolheu ${escolhaJogador.par ? "PAR" : "IMPAR"}  ==`)
-    console.log('==                                       ==')
-    console.log('===========================================')
+    menu.titulo('FAÇA SUA JOGADA')
+    menu.opcoes([`Você escolheu ${escolhaJogador.par ? "par" : "impar"}. Agora escolha sua mão.`])
+    menu.inferior()
 
     let escolhaNumero = getChoice("Escolha um numero entre: 0 e 9 ", 0, 9)
 
@@ -218,10 +178,44 @@ const telaEscolherNumero = (escolhaJogador) => {
 
     } else {
         telaEscolherNumero(escolhaJogador);
+
     }
 
 }
 
+const telaResultado = (escolhaJogador, escolhaMaquina) => {
+
+    console.clear()
+
+    let jogadorPar = escolhaJogador.par ? "PAR" : "IMPAR"
+    let maquinaPar = escolhaMaquina.par ? "PAR" : "IMPAR"
+
+    let soma = escolhaJogador.valor + escolhaMaquina.valor
+    let resultadoEhPar = soma % 2 === 0
+    let jogadorVenceu = resultadoEhPar === escolhaJogador.par
+
+
+    menu.titulo(`RESULTADO`)
+    menu, menu.linhaVazia
+    menu.opcoes([
+        `${jogador} (${jogadorPar}) - Mão: ${escolhaJogador.valor}`,
+        `Maquina (${maquinaPar}) - Mão: ${escolhaMaquina.valor}`, 
+    ])
+    menu.divisoria()
+    menu.textoDireita(`VENCEDOR: ${jogadorVenceu ? jogador : "Maquina"}`)
+    menu.inferior()
+
+    if (jogadorVenceu) {
+        resultados.vitorias = resultados.vitorias + 1
+    } else {
+        resultados.derrotas = resultados.derrotas + 1
+    }
+
+    wait()
+
+    telaMenuPrincipal()
+
+}
 
 telaInicial()
 
